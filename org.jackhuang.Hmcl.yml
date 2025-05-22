@@ -1,0 +1,111 @@
+id: org.jackhuang.Hmcl
+runtime: org.freedesktop.Platform
+runtime-version: '24.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk17
+rename-desktop-file: HMCL.desktop
+rename-appdata-file: HMCL.appdata.xml
+rename-icon: HMCL
+separate-locales: false
+command: HMCL
+finish-args:
+  - --share=network
+  - --share=ipc
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --device=dri
+  - --persist=.minecraft
+  - --env=PATH=/app/jre/bin:/app/jre-8/bin:/usr/bin:/app/bin
+
+add-extensions:
+  org.freedesktop.Sdk.Extension.openjdk8:
+    version: '24.08'
+    directory: jdk-8 # this is relative to /app
+    no-autodownload: true
+
+modules:
+  - name: flite
+    config-opts:
+      - --enable-shared
+      - --with-audio=alsa
+      - --with-vox=cmu_us_kal16
+    cleanup:
+      - '*.a'
+      - /include
+      - /share
+    sources:
+      - type: git
+        url: https://github.com/festvox/flite.git
+        tag: v2.2
+        commit: e9e2e37c329dbe98bfeb27a1828ef9a71fa84f88
+        x-checker-data:
+          type: git
+          tag-pattern: ^v([\d.]+)$
+
+  - name: xrandr
+    sources:
+      - type: archive
+        url: https://www.x.org/archive/individual/app/xrandr-1.5.1.tar.gz
+        sha256: 7b99edb7970a1365eaf5bcaf552144e4dfc3ccf510c4abc08569849929fb366e
+
+  - name: jre
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/jdk-8
+      - ln -s jdk-8/jvm/java-8-openjdk /app/jre-8
+      - . /usr/lib/sdk/openjdk17/enable.sh && jlink --strip-debug --no-header-files
+        --no-man-pages --compress=1 --module-path $JAVA_HOME/jmods:. --add-modules
+        ALL-MODULE-PATH --output /app/jre
+    sources:
+      - type: archive
+        only-arches: [x86_64]
+        url: https://download2.gluonhq.com/openjfx/17.0.1/openjfx-17.0.1_linux-x64_bin-jmods.zip
+        sha256: 28662b6fcdaedaaf23ee6dbef2d632bf2a53e30aaa9231f27e00e6ceb10238a0
+      - type: archive
+        only-arches: [aarch64]
+        url: https://download2.gluonhq.com/openjfx/17.0.1/openjfx-17.0.1_linux-aarch64_bin-jmods.zip
+        sha256: 40525cc333f48acbc62657f5cfbc30635940c4bc61d42f6a1e19ab3e208b2744
+
+  - name: HMCL
+    buildsystem: simple
+    build-options:
+      no-debuginfo: true
+    build-commands:
+      - install -Dm644 HMCL.jar -t /app/HMCL
+      - install -Dm755 HMCL.sh /app/bin/HMCL
+      - install -Dm644 HMCL.desktop -t /app/share/applications
+      - install -Dm644 HMCL.png -t /app/share/icons/hicolor/128x128/apps
+      - install -Dm644 HMCL.appdata.xml -t /app/share/metainfo
+    sources:
+      - type: file
+        dest-filename: HMCL.jar
+        url: https://ci.huangyuhui.net/job/HMCL-stable/lastSuccessfulBuild/artifact/HMCL/build/libs/HMCL-3.6.12.jar
+        sha256: a1fac6ec255920e0c9a0713aa3047d3fbbe20650a16a6605e4f12915e78e1f81
+        x-checker-data:
+          type: json
+          url: https://ci.huangyuhui.net/job/HMCL/lastSuccessfulBuild/api/json?pretty=true
+          version-query: .artifacts[0].fileName | gsub("^HMCL-|.exe"; "")
+          url-query: .url + "artifact/" + (.artifacts[] | select(.fileName=="HMCL-"
+            + $version + ".jar") | .relativePath)
+
+      - type: file
+        path: HMCL.desktop
+
+      - type: file
+        path: HMCL.png
+
+      - type: file
+        path: HMCL.appdata.xml
+
+      - type: script
+        dest-filename: HMCL.sh
+        commands:
+          - mkdir -p $XDG_DATA_HOME/HMCL
+          - cd $XDG_DATA_HOME/HMCL || (echo "Can't open $XDG_DATA_HOME/HMCL" && exit
+            1)
+          - exec java -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=15 -jar /app/HMCL/HMCL.jar
+
+
+
