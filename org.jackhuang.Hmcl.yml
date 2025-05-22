@@ -26,23 +26,23 @@ add-extensions:
     no-autodownload: true
 
 modules:
-  - name: flite
-    config-opts:
-      - --enable-shared
-      - --with-audio=alsa
-      - --with-vox=cmu_us_kal16
-    cleanup:
-      - '*.a'
-      - /include
-      - /share
-    sources:
-      - type: git
-        url: https://github.com/festvox/flite.git
-        tag: v2.2
-        commit: e9e2e37c329dbe98bfeb27a1828ef9a71fa84f88
-        x-checker-data:
-          type: git
-          tag-pattern: ^v([\d.]+)$
+  #- name: flite
+  #  config-opts:
+  #    - --enable-shared
+  #    - --with-audio=alsa
+  #    - --with-vox=cmu_us_kal16
+  #  cleanup:
+  #    - '*.a'
+  #    - /include
+  #    - /share
+  #  sources:
+  #    - type: git
+  #      url: https://github.com/festvox/flite.git
+  #      tag: v2.2
+  #      commit: e9e2e37c329dbe98bfeb27a1828ef9a71fa84f88
+  #      x-checker-data:
+  #        type: git
+  #        tag-pattern: ^v([\d.]+)$
 
   - name: xrandr
     sources:
@@ -76,7 +76,7 @@ modules:
       - install -Dm644 HMCL.jar -t /app/HMCL
       - install -Dm755 HMCL.sh /app/bin/HMCL
       - install -Dm644 HMCL.desktop -t /app/share/applications
-      - install -Dm644 HMCL.png -t /app/share/icons/hicolor/128x128/apps
+      - install -Dm644 HMCL.png -t /app/share/icons/hicolor/256x256/apps
       - install -Dm644 HMCL.appdata.xml -t /app/share/metainfo
     sources:
       - type: file
