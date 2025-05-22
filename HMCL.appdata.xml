@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>net.huangyuhui.HMCL</id>
+  <id>net.huangyuhui.hmcl.Launcher</id>
   
   <name>Hello Minecraft! Launcher</name>
   <summary>A Minecraft Launcher which is multi-functional, cross-platform and popular</summary>
@@ -20,7 +20,7 @@
 	</p>
   </description>
   
-  <launchable type="desktop-id">net.huangyuhui.HMCL.desktop</launchable>
+  <launchable type="desktop-id">net.huangyuhui.hmcl.Launcher.desktop</launchable>
   <screenshots>
     <screenshot type="default">
       <image>https://hmcl.huangyuhui.net/assets/img/main_page.png</image>
