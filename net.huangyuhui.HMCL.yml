@@ -1,4 +1,4 @@
-id: org.jackhuang.Hmcl
+id: net.huangyuhui.HMCL
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
