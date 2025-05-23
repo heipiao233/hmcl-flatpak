@@ -26,10 +26,15 @@ jobs:
             - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
               name: Build Flatpak
               with:
-                    bundle: net.huangyuhui.hmcl.Launcher-${{ matrix.variant.arch }}.flatpak
+                    bundle: net.huangyuhui.hmcl.Launcher-${{ github.ref }}-${{ matrix.variant.arch }}.flatpak
                     manifest-path: net.huangyuhui.hmcl.Launcher.yml
                     arch: ${{ matrix.variant.arch }}
                     cache-key: flatpak-builder-${{ github.sha }}
                     verbose: true
+            - name: Release
+              uses: softprops/action-gh-release@v2
+              if: github.ref_type == 'tag'
+              with:
+                files: net.huangyuhui.hmcl.Launcher-${{ github.ref }}-${{ matrix.variant.arch }}.flatpak
 
 
