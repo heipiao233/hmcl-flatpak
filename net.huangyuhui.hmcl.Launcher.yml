@@ -64,7 +64,7 @@ modules:
       - type: file
         dest-filename: HMCL.jar
         url: https://hmcl.glavo.site/download/HMCL-3.11.1.jar
-        sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+        sha256: 9ed866bffc6f810e09166b5cc27e179021dc7730b6de127931ca00225da0f00e
         x-checker-data:
           type: json
           url: https://ci.huangyuhui.net/job/HMCL/lastSuccessfulBuild/api/json?pretty=true
