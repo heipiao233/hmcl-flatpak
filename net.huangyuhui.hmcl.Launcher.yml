@@ -63,7 +63,7 @@ modules:
     sources:
       - type: file
         dest-filename: HMCL.jar
-        url: https://ci.huangyuhui.net/job/HMCL-stable/job/release%252F3.11/1/artifact/HMCL/build/libs/HMCL-3.11.1.jar
+        url: https://hmcl.glavo.site/download/HMCL-3.11.1.jar
         sha256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
         x-checker-data:
           type: json
