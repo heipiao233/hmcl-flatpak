@@ -26,30 +26,6 @@ add-extensions:
     no-autodownload: true
 
 modules:
-  - name: xrandr
-    sources:
-      - type: archive
-        url: https://www.x.org/archive/individual/app/xrandr-1.5.1.tar.gz
-        sha256: 7b99edb7970a1365eaf5bcaf552144e4dfc3ccf510c4abc08569849929fb366e
-
-  - name: jre
-    buildsystem: simple
-    build-commands:
-      - mkdir -p /app/jdk-8
-      - ln -s jdk-8/jvm/java-8-openjdk /app/jre-8
-      - . /usr/lib/sdk/openjdk17/enable.sh && jlink --strip-debug --no-header-files
-        --no-man-pages --compress=1 --module-path $JAVA_HOME/jmods:. --add-modules
-        ALL-MODULE-PATH --output /app/jre
-    sources:
-      - type: archive
-        only-arches: [x86_64]
-        url: https://download2.gluonhq.com/openjfx/17.0.1/openjfx-17.0.1_linux-x64_bin-jmods.zip
-        sha256: 28662b6fcdaedaaf23ee6dbef2d632bf2a53e30aaa9231f27e00e6ceb10238a0
-      - type: archive
-        only-arches: [aarch64]
-        url: https://download2.gluonhq.com/openjfx/17.0.1/openjfx-17.0.1_linux-aarch64_bin-jmods.zip
-        sha256: 40525cc333f48acbc62657f5cfbc30635940c4bc61d42f6a1e19ab3e208b2744
-
   - name: HMCL
     buildsystem: simple
     build-options:
