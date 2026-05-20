@@ -3,7 +3,7 @@ runtime: org.freedesktop.Platform
 runtime-version: '25.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
-  - org.freedesktop.Sdk.Extension.openjdk17
+  - org.freedesktop.Sdk.Extension.openjdk25
 rename-desktop-file: HMCL.desktop
 rename-appdata-file: HMCL.appdata.xml
 rename-icon: HMCL
@@ -22,10 +22,14 @@ finish-args:
 add-extensions:
   org.freedesktop.Sdk.Extension.openjdk8:
     version: '25.08'
-    directory: jdk-8 # this is relative to /app
+    directory: jdk8 # this is relative to /app
     no-autodownload: true
 
 modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - "/usr/lib/sdk/openjdk25/install.sh"
   - name: HMCL
     buildsystem: simple
     build-options:
@@ -60,9 +64,10 @@ modules:
       - type: script
         dest-filename: HMCL.sh
         commands:
+          - export JAVA_HOME=/app/jre
+          - export PATH=/app/jre/bin:/usr/bin
           - mkdir -p $XDG_DATA_HOME/HMCL
-          - cd $XDG_DATA_HOME/HMCL || (echo "Can't open $XDG_DATA_HOME/HMCL" && exit
-            1)
+          - cd $XDG_DATA_HOME/HMCL || (echo "Can't open $XDG_DATA_HOME/HMCL" && exit 1)
           - exec java -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=15 -jar /app/HMCL/HMCL.jar
 
 
