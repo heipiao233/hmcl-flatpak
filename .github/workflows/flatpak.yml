@@ -60,6 +60,14 @@ jobs:
           sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.Launcher.yml
           echo "skip=false" >> $GITHUB_OUTPUT
 
+      - name: Setup GPG
+        if: ${{ github.triggering_actor == github.repository_owner }}
+        id: gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         name: Build Flatpak
         if: steps.get_jar.outputs.skip == 'false'
@@ -68,6 +76,7 @@ jobs:
           manifest-path: net.huangyuhui.hmcl.Launcher.yml
           arch: ${{ matrix.variant.arch }}
           cache-key: flatpak-builder-${{ github.sha }}
+          gpg-sign: ${{ steps.gpg.outputs.fingerprint }}
           verbose: true
       - name: Deploy the repo
         id: deployment
