@@ -12,7 +12,7 @@ jobs:
     name: Flatpak
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/andyholmes/flatter/gnome:master
+      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
       options: --privileged
     strategy:
       fail-fast: false
