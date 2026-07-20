@@ -12,7 +12,7 @@ jobs:
     name: Flatpak
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-48
+      image: ghcr.io/andyholmes/flatter/gnome:master
       options: --privileged
     strategy:
       fail-fast: false
@@ -36,6 +36,7 @@ jobs:
       - name: Check HMCL Update
         id: get_jar
         run: |
+          sudo apt install jq
           REPO="HMCL-dev/HMCL"
           RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases")
           JAR_URL=$(echo "$RELEASE" | jq -r '.[0].assets[] | select(.name | endswith(".jar")) | .browser_download_url' | head -1)
