@@ -40,6 +40,7 @@ jobs:
           RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases")
           JAR_URL=$(echo "$RELEASE" | jq -r '.[0].assets[] | select(.name | endswith(".jar")) | .browser_download_url' | head -1)
           LATEST_VERSION=$(echo "$RELEASE" | jq -r '.[0].tag_name')
+          mkdir -p cache
           if [ -f "cache/current_version.txt" ]; then
             CURRENT_VERSION=$(cat cache/current_version.txt)
           else
