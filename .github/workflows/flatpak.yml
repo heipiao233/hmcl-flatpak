@@ -1,7 +1,6 @@
 on:
-  push:
-    tags:
-      - 'v*.*.*'
+  schedule:
+    - cron: "0 6 * * *"
 name: CI
 jobs:
   flatpak:
@@ -23,18 +22,64 @@ jobs:
         run: env | sort
       - uses: actions/checkout@v4
         name: Checkout
+      - name: Get last built version
+        id: version_cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            cache/current_version.txt
+            cache/last_build_sha.txt
+          key: hmcl-version-cache
+          restore-keys: |
+            hmcl-version-cache
+      - name: Check HMCL Update
+        id: get_jar
+        run: |
+          REPO="HMCL-dev/HMCL"
+          RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases")
+          JAR_URL=$(echo "$RELEASE" | jq -r '.[0].assets[] | select(.name | endswith(".jar")) | .browser_download_url' | head -1)
+          LATEST_VERSION=$(echo "$RELEASE" | jq -r '.[0].tag_name')
+          if [ -f "cache/current_version.txt" ]; then
+            CURRENT_VERSION=$(cat cache/current_version.txt)
+          else
+            CURRENT_VERSION="none"
+          fi
+          if [ "$LATEST_VERSION" = "$CURRENT_VERSION" ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "$LATEST_VERSION" > cache/current_version.txt
+          wget "$JAR_URL" -O HMCL.jar
+          SHA256=$(sha256sum HMCL.jar | awk '{print $1}')
+          sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.Launcher.yml
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         name: Build Flatpak
+        if: steps.get_jar.outputs.skip == 'false'
         with:
           bundle: net.huangyuhui.hmcl.Launcher-${{ github.ref_name }}-${{ matrix.variant.arch }}.flatpak
           manifest-path: net.huangyuhui.hmcl.Launcher.yml
           arch: ${{ matrix.variant.arch }}
           cache-key: flatpak-builder-${{ github.sha }}
           verbose: true
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: github.ref_type == 'tag'
+      - name: Deploy the repo
+        id: deployment
+        if: steps.get_jar.outputs.skip == 'false'
+        uses: actions/upload-pages-artifact@v3
         with:
-          files: net.huangyuhui.hmcl.Launcher-${{ github.ref_name }}-${{ matrix.variant.arch }}.flatpak
-
-
+          path: repo
+      - uses: actions/cache/save@v4
+        if: steps.get_jar.outputs.skip == 'false'
+        with:
+          path: cache
+          key: hmcl-version-cache
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: flatpak
+    if: always() && needs.flatpak.result == 'success'
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

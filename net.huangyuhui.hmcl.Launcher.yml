@@ -42,15 +42,8 @@ modules:
       - install -Dm644 HMCL.appdata.xml -t /app/share/metainfo
     sources:
       - type: file
-        dest-filename: HMCL.jar
-        url: https://ci.huangyuhui.net/job/HMCL-stable/job/release%252F3.13/lastSuccessfulBuild/artifact/HMCL/build/libs/HMCL-3.13.2.jar
-        sha256: d8e2ed7f8edf98d88414e9231e20c28fdf6c7a2332db93e59910d214abbd5852
-        x-checker-data:
-          type: json
-          url: https://ci.huangyuhui.net/job/HMCL/lastSuccessfulBuild/api/json?pretty=true
-          version-query: .artifacts[0].fileName | gsub("^HMCL-|.exe"; "")
-          url-query: .url + "artifact/" + (.artifacts[] | select(.fileName=="HMCL-"
-            + $version + ".jar") | .relativePath)
+        path: HMCL.jar
+        sha256: HMCL_SHA256
 
       - type: file
         path: HMCL.desktop
@@ -69,6 +62,3 @@ modules:
           - mkdir -p $XDG_DATA_HOME/HMCL
           - cd $XDG_DATA_HOME/HMCL || (echo "Can't open $XDG_DATA_HOME/HMCL" && exit 1)
           - exec java -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=15 -jar /app/HMCL/HMCL.jar
-
-
-
