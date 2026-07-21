@@ -50,7 +50,7 @@ jobs:
           else
             CURRENT_VERSION="none"
           fi
-          if [ "$LATEST_VERSION" = "$CURRENT_VERSION" ]; then
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ "$LATEST_VERSION" = "$CURRENT_VERSION" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
             exit 0
           fi
