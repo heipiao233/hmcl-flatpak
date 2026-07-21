@@ -33,7 +33,6 @@ jobs:
         with:
           path: |
             cache/current_version.txt
-            cache/last_build_sha.txt
           key: hmcl-version-cache
           restore-keys: |
             hmcl-version-cache
@@ -87,11 +86,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: repo
-      - uses: actions/cache/save@v4
-        if: steps.get_jar.outputs.skip == 'false'
-        with:
-          path: cache
-          key: hmcl-version-cache
   deploy:
     environment:
       name: github-pages
