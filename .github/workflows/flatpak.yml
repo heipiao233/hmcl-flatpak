@@ -59,8 +59,8 @@ jobs:
           wget "$JAR_URL" -O HMCL.jar
           SHA256=$(sha256sum HMCL.jar | awk '{print $1}')
           sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.yml
-          sed -i "s/HMCL_VERSION/$LATEST_VERSION/" net.huangyuhui.metainfo.xml
-          sed -i "s/HMCL_DATE/$VERSION_DATE/" net.huangyuhui.metainfo.xml
+          sed -i "s/HMCL_VERSION/$LATEST_VERSION/" net.huangyuhui.hmcl.metainfo.xml
+          sed -i "s/HMCL_DATE/$VERSION_DATE/" net.huangyuhui.hmcl.metainfo.xml
           echo "skip=false" >> $GITHUB_OUTPUT
 
       - name: Setup GPG
