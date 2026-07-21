@@ -26,6 +26,10 @@
   </description>
   <screenshots>
     <screenshot type="default">
+      <caption>Main page</caption>
+      <image type="source">https://hmcl.huangyuhui.net/assets/img/main_page.webp</image>
+    </screenshot>
+    <screenshot>
       <caption>Game installer</caption>
       <image type="source">https://hmcl.huangyuhui.net/assets/img/installer_page.webp</image>
     </screenshot>
@@ -42,6 +46,10 @@
   <url type="vcs-browser">https://github.com/HMCL-dev/HMCL</url>
   <categories>
     <category>Game</category>
+    <category>AdventureGame</category>
+    <category>Simulation</category>
+    <category>LauncherStore</category>
+    <category>GameTool</category>
   </categories>
   <recommends>
     <control>pointing</control>
