@@ -44,6 +44,7 @@ jobs:
           RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases")
           JAR_URL=$(echo "$RELEASE" | jq -r '.[0].assets[] | select(.name | endswith(".jar")) | .browser_download_url' | head -1)
           LATEST_VERSION=$(echo "$RELEASE" | jq -r '.[0].tag_name')
+          VERSION_DATE=$(echo "$RELEASE" | jq -r '.[0].published_at')
           mkdir -p cache
           if [ -f "cache/current_version.txt" ]; then
             CURRENT_VERSION=$(cat cache/current_version.txt)
@@ -58,6 +59,8 @@ jobs:
           wget "$JAR_URL" -O HMCL.jar
           SHA256=$(sha256sum HMCL.jar | awk '{print $1}')
           sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.yml
+          sed -i "s/HMCL_VERSION/$LATEST_VERSION/" net.huangyuhui.appdata.xml
+          sed -i "s/HMCL_DATE/$VERSION_DATE/" net.huangyuhui.appdata.xml
           echo "skip=false" >> $GITHUB_OUTPUT
 
       - name: Setup GPG
