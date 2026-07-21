@@ -57,7 +57,7 @@ jobs:
           echo "$LATEST_VERSION" > cache/current_version.txt
           wget "$JAR_URL" -O HMCL.jar
           SHA256=$(sha256sum HMCL.jar | awk '{print $1}')
-          sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.Launcher.yml
+          sed -i "s/HMCL_SHA256/$SHA256/" net.huangyuhui.hmcl.yml
           echo "skip=false" >> $GITHUB_OUTPUT
 
       - name: Setup GPG
@@ -72,8 +72,8 @@ jobs:
         name: Build Flatpak
         if: steps.get_jar.outputs.skip == 'false'
         with:
-          bundle: net.huangyuhui.hmcl.Launcher-${{ github.ref_name }}-${{ matrix.variant.arch }}.flatpak
-          manifest-path: net.huangyuhui.hmcl.Launcher.yml
+          bundle: net.huangyuhui.hmcl-${{ github.ref_name }}-${{ matrix.variant.arch }}.flatpak
+          manifest-path: net.huangyuhui.hmcl.yml
           arch: ${{ matrix.variant.arch }}
           cache-key: flatpak-builder-${{ github.sha }}
           gpg-sign: ${{ steps.gpg.outputs.fingerprint }}

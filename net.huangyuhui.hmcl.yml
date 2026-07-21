@@ -1,0 +1,65 @@
+app-id: net.huangyuhui.hmcl
+runtime: org.freedesktop.Platform
+runtime-version: "25.08"
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.openjdk25
+command: hmcl
+
+finish-args:
+  - --share=ipc
+  - --share=network
+  - --socket=x11
+  - --socket=wayland
+  - --socket=pulseaudio
+  - --device=dri
+  - --env=_JAVA_AWT_WM_NONREPARENTING=1
+  - --persist=.minecraft
+  - --persist=.hmcl
+
+cleanup:
+  - /jre/man
+  - "*.la"
+  - "*.a"
+
+modules:
+  - name: openjdk
+    buildsystem: simple
+    build-commands:
+      - /usr/lib/sdk/openjdk25/install.sh
+      - mkdir -p "$FLATPAK_DEST/share/licenses/$FLATPAK_ID/openjdk"
+      - cp -a /usr/lib/sdk/openjdk25/jvm/openjdk-25/legal/. "$FLATPAK_DEST/share/licenses/$FLATPAK_ID/openjdk/"
+
+  - name: hmcl
+    buildsystem: simple
+    license-files:
+      - LICENSE
+    build-commands:
+      - install -Dm644 HMCL.jar /app/lib/hmcl/hmcl.jar
+      - install -Dm755 hmcl /app/bin/hmcl
+      - install -Dm644 net.huangyuhui.hmcl.desktop /app/share/applications/net.huangyuhui.hmcl.desktop
+      - install -Dm644 net.huangyuhui.hmcl.metainfo.xml /app/share/metainfo/net.huangyuhui.hmcl.metainfo.xml
+      - install -Dm644 icon.png /app/share/icons/hicolor/256x256/apps/net.huangyuhui.hmcl.png
+    sources:
+      - type: file
+        path: HMCL.jar
+        sha256: HMCL_SHA256
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/HMCL-dev/HMCL/releases/latest
+          version-query: .tag_name | sub("^v"; "")
+          url-query: .assets[] | select(.name | test("^HMCL-[0-9.]+\\.jar$")) | .browser_download_url
+      - type: file
+        url: https://raw.githubusercontent.com/HMCL-dev/HMCL/c9b1cfec5a7632d73502f81e2fba76d1179ff7cd/HMCL/src/main/resources/assets/img/icon@8x.png
+        sha256: d4e56ae2e8c0d991dba01ef3124ef4d38918825f58728338a8bab5e78319306a
+        dest-filename: icon.png
+      - type: file
+        url: https://raw.githubusercontent.com/HMCL-dev/HMCL/7820f748a0238d64f54ee2ceeec26c01f286e8d0/LICENSE
+        sha256: 3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986
+        dest-filename: LICENSE
+      - type: file
+        path: hmcl
+      - type: file
+        path: net.huangyuhui.hmcl.desktop
+      - type: file
+        path: net.huangyuhui.hmcl.metainfo.xml
