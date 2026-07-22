@@ -8,6 +8,6 @@ Comment[zh_CN]=Hello Minecraft 启动器
 Exec=hmcl %U
 Icon=net.huangyuhui.hmcl
 Terminal=false
-Categories=Game;AdventureGame;Simulation;LauncherStore;GameTool;
+Categories=Game;AdventureGame;Simulation;
 StartupWMClass=org.jackhuang.hmcl.Launcher
 Keywords=minecraft;launcher;

@@ -63,7 +63,7 @@ jobs:
           echo "skip=false" >> $GITHUB_OUTPUT
 
       - name: Setup GPG
-        if: ${{ github.triggering_actor == github.repository_owner }}
+        if: ${{ github.triggering_actor == github.repository_owner && steps.get_jar.outputs.skip == 'false' }}
         id: gpg
         uses: crazy-max/ghaction-import-gpg@v5
         with:

@@ -48,8 +48,6 @@
     <category>Game</category>
     <category>AdventureGame</category>
     <category>Simulation</category>
-    <category>LauncherStore</category>
-    <category>GameTool</category>
   </categories>
   <recommends>
     <control>pointing</control>
