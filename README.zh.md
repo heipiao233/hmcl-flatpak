@@ -12,3 +12,6 @@
 ````bash
 flatpak remote-add --if-not-exists hmcl https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
 ````
+
+## 旧版本 JDK
+直接安装 OpenJDK 8/17/21 的对应 Flatpak 包，它们会被检测到。

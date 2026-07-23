@@ -6,6 +6,20 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk25
 command: hmcl
 
+add-extensions:
+  org.freedesktop.Sdk.Extension.openjdk8:
+    version: '25.08'
+    directory: jdk8
+    no-autodownload: true
+  org.freedesktop.Sdk.Extension.openjdk17:
+    version: '25.08'
+    directory: jdk17
+    no-autodownload: true
+  org.freedesktop.Sdk.Extension.openjdk21:
+    version: '25.08'
+    directory: jdk21
+    no-autodownload: true
+
 finish-args:
   - --share=ipc
   - --share=network
@@ -16,6 +30,7 @@ finish-args:
   - --env=_JAVA_AWT_WM_NONREPARENTING=1
   - --persist=.minecraft
   - --persist=.hmcl
+  - --env=HMCL_JRES=/app/jdk8/jvm/java-8-openjdk:/app/jdk17/jvm/openjdk-17:/app/jdk21/jvm/openjdk-21
 
 cleanup:
   - /jre/man
@@ -23,12 +38,36 @@ cleanup:
   - "*.a"
 
 modules:
+  - flite.json
+
   - name: openjdk
     buildsystem: simple
     build-commands:
       - /usr/lib/sdk/openjdk25/install.sh
       - mkdir -p "$FLATPAK_DEST/share/licenses/$FLATPAK_ID/openjdk"
       - cp -a /usr/lib/sdk/openjdk25/jvm/openjdk-25/legal/. "$FLATPAK_DEST/share/licenses/$FLATPAK_ID/openjdk/"
+
+  - name: glfw
+    buildsystem: cmake-ninja
+    config-opts:
+      - -DCMAKE_BUILD_TYPE=RelWithDebInfo
+      - -DBUILD_SHARED_LIBS:BOOL=ON
+      - -DGLFW_BUILD_WAYLAND:BOOL=ON
+      - -DGLFW_BUILD_DOCS:BOOL=OFF
+    sources:
+      - type: git
+        url: https://github.com/glfw/glfw.git
+        commit: 7b6aead9fb88b3623e3b3725ebb42670cbe4c579 # 3.4
+      - type: patch
+        path: patches/0001-Wayland-Partially-implement-glfwSetCursorPos.patch
+      - type: patch
+        path: patches/0002-Wayland-Implement-glfwSetWindowIcon.patch
+      - type: patch
+        path: patches/0003-proceed-even-though-no-window-icon-support-on-wayland.patch
+    cleanup:
+      - /include
+      - /lib/cmake
+      - /lib/pkgconfig
 
   - name: hmcl
     buildsystem: simple
@@ -40,6 +79,7 @@ modules:
       - install -Dm644 net.huangyuhui.hmcl.desktop /app/share/applications/net.huangyuhui.hmcl.desktop
       - install -Dm644 net.huangyuhui.hmcl.metainfo.xml /app/share/metainfo/net.huangyuhui.hmcl.metainfo.xml
       - install -Dm644 icon.png /app/share/icons/hicolor/256x256/apps/net.huangyuhui.hmcl.png
+      - mkdir /app/jdk8 /app/jdk17 /app/jdk21
     sources:
       - type: file
         path: HMCL.jar

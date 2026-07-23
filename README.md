@@ -9,6 +9,10 @@ If your desktop environment has a application store, you can try to import https
 Some app stores, such as GNOME Software and Plasma's Discover, support opening this file directly, while others may support importing flatpakrepo files within their windows.
 
 ### In command line
-````bash
+```bash
 flatpak remote-add --if-not-exists hmcl https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
-````
+```
+
+## Older JDKs
+Install corresponding OpenJDK 8/17/21 Flatpak, them could be detected.
+```
