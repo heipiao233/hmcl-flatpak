@@ -117,6 +117,7 @@ jobs:
 
       - name: Merge OSTree repos
         run: |
+          sudo apt install ostree
           ostree init --repo=repo
           for arch_repo in repos/*; do
             if [ -d "$arch_repo" ]; then
