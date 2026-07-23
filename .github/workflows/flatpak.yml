@@ -74,6 +74,12 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       
+      - name: Install docker for QEMU
+        run: |
+          curl https://download.docker.com/linux/static/stable/x86_64/docker-26.0.0.tgz --output ./docker.tgz
+          tar xzvf docker.tgz
+          mv docker/* /usr/bin
+
       - name: Set up QEMU
         id: qemu
         uses: docker/setup-qemu-action@v3
