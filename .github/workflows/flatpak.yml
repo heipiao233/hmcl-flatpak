@@ -128,7 +128,7 @@ jobs:
           ostree summary --repo=repo --update
           
       - name: Upload repo artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v5
         with:
           path: repo
       - name: Deploy to GitHub Pages
