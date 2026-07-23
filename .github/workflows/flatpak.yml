@@ -113,7 +113,6 @@ jobs:
         with:
           pattern: repo-*
           path: repos
-          merge-multiple: true
 
       - name: Merge OSTree repos
         run: |
