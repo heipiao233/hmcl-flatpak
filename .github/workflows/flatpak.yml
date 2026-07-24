@@ -112,20 +112,18 @@ jobs:
         with:
           pattern: repo-*
           path: repos
-
-      - name: Merge OSTree repos
+      - name: Setup GPG
+        if: ${{ github.triggering_actor == github.repository_owner }}
+        id: gpg
+        uses: crazy-max/ghaction-import-gpg@v7
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Merge repos
         run: |
-          sudo apt install ostree
-          ostree init --repo=repo
-          for arch_repo in repos/*; do
-            if [ -d "$arch_repo" ]; then
-              echo "Merging $arch_repo"
-              ls "$arch_repo"
-              ostree pull-local --repo=repo "$arch_repo" --depth=-1
-            fi
-          done
-          ostree summary --repo=repo --update
-          
+          sudo apt install flatpak
+          mv repos/repo-x86_64 repo
+          flatpak build-commit-from --gpg-sign=${{ steps.gpg.outputs.fingerprint }} --src-repo=repos/repo-aarch64 --src-ref=net.huangyuhui.hmcl/aarch64/master repo net.huangyuhui.hmcl/aarch64/master
       - name: Upload repo artifact
         uses: actions/upload-pages-artifact@v5
         with:
