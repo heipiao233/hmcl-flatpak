@@ -124,7 +124,7 @@ jobs:
           sudo apt install flatpak
           mv repos/repo-x86_64 repo
           flatpak build-commit-from --gpg-sign=${{ steps.gpg.outputs.fingerprint }} --src-repo=repos/repo-aarch64 --src-ref=app/net.huangyuhui.hmcl/aarch64/master --update-appstream repo app/net.huangyuhui.hmcl/aarch64/master
-          flatpak build-commit-from --gpg-sign=${{ steps.gpg.outputs.fingerprint }} --src-repo=repos/repo-aarch64 --src-ref=runtime/net.huangyuhui.hmcl.Debug/aarch64/master --update-appstream repo runtime/net.huangyuhui.hmcl.Debug/aarch64/master
+          flatpak build-commit-from --gpg-sign=${{ steps.gpg.outputs.fingerprint }} --src-repo=repos/repo-aarch64 --src-ref=runtime/net.huangyuhui.hmcl.Debug/aarch64/master repo runtime/net.huangyuhui.hmcl.Debug/aarch64/master
       - name: Upload repo artifact
         uses: actions/upload-pages-artifact@v5
         with:
