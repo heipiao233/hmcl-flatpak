@@ -121,6 +121,7 @@ jobs:
           for arch_repo in repos/*; do
             if [ -d "$arch_repo" ]; then
               echo "Merging $arch_repo"
+              ls "$arch_repo"
               ostree pull-local --repo=repo "$arch_repo" --depth=-1
             fi
           done
