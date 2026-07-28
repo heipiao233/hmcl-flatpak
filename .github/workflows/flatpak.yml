@@ -20,8 +20,6 @@ jobs:
           path: |
             cache/current_version.txt
           key: hmcl-version-cache
-          restore-keys: |
-            hmcl-version-cache
       - name: Check HMCL Update
         id: get_jar
         run: |
@@ -29,6 +27,12 @@ jobs:
           RELEASE=$(curl -s "https://api.github.com/repos/$REPO/releases")
           JAR_URL=$(echo "$RELEASE" | jq -r '.[0].assets[] | select(.name | endswith(".jar")) | .browser_download_url' | head -1)
           LATEST_VERSION=$(echo "$RELEASE" | jq -r '.[0].tag_name')
+          DOT_COUNT=$(echo "$LATEST_VERSION" | tr -cd '.' | wc -c)
+          if [ "$DOT_COUNT" -eq 2 ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "Skipping stable version $LATEST_VERSION"
+            exit 0
+          fi
           VERSION_DATE=$(echo "$RELEASE" | jq -r '.[0].published_at')
           mkdir -p cache
           if [ -f "cache/current_version.txt" ]; then
@@ -45,7 +49,11 @@ jobs:
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
           echo "date=$VERSION_DATE" >> $GITHUB_OUTPUT
           echo "skip=false" >> $GITHUB_OUTPUT
-
+      - uses: actions/cache/save@v5
+        id: cache
+        with:
+          path: path/to/dependencies
+          key: hmcl-version-cache
   flatpak:
     name: Flatpak (${{ matrix.variant.arch }})
     runs-on: ${{ matrix.variant.runner }}
