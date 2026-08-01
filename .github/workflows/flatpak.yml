@@ -52,7 +52,7 @@ jobs:
       - uses: actions/cache/save@v5
         id: cache
         with:
-          path: path/to/dependencies
+          path: cache/current_version.txt
           key: hmcl-version-cache
   flatpak:
     name: Flatpak (${{ matrix.variant.arch }})
