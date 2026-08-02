@@ -1,4 +1,8 @@
-**Unofficial** Flatpak repo of [HMCL](https://github.com/HMCL-dev/HMCL).
+[中文](README.zh.md) | [English](README.md)
+
+---
+
+# **Unofficial** Flatpak repo of [HMCL](https://github.com/HMCL-dev/HMCL)
 Automatically built daily to stay up-to-date!
 NOT OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG.
 This repo is also not supported by HMCL developers. If you encountered any problem please try to reproduce it in official HMCL.
@@ -15,4 +19,6 @@ flatpak remote-add --if-not-exists hmcl https://github.com/heipiao233/hmcl-flatp
 
 ## Older JDKs
 Install corresponding OpenJDK 8/17/21 Flatpak, them could be detected.
+```
+flatpak install org.freedesktop.Sdk.Extension.openjdk{8,17,21}
 ```

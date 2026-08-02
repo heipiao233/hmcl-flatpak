@@ -13,13 +13,6 @@ jobs:
       version: ${{ steps.get_jar.outputs.version }}
       date: ${{ steps.get_jar.outputs.date }}
     steps:
-      - name: Get last built version
-        id: version_cache
-        uses: actions/cache@v6
-        with:
-          path: |
-            cache/current_version.txt
-          key: hmcl-version-cache
       - name: Check HMCL Update
         id: get_jar
         run: |
@@ -35,11 +28,7 @@ jobs:
           fi
           VERSION_DATE=$(echo "$RELEASE" | jq -r '.[0].published_at')
           mkdir -p cache
-          if [ -f "cache/current_version.txt" ]; then
-            CURRENT_VERSION=$(cat cache/current_version.txt)
-          else
-            CURRENT_VERSION="none"
-          fi
+          CURRENT_VERSION=$(curl -fs "https://heipiao233.github.io/hmcl-flatpak/contain_version.txt" 2>/dev/null || echo "")
           if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ "$LATEST_VERSION" = "$CURRENT_VERSION" ]; then
             echo "skip=true" >> $GITHUB_OUTPUT
             exit 0
@@ -98,6 +87,9 @@ jobs:
           cache-key: flatpak-builder-${{ matrix.variant.arch }}-${{ github.sha }}
           gpg-sign: ${{ steps.gpg.outputs.fingerprint }}
           verbose: true
+      - name: Add version tag
+        run: |
+          echo ${{ needs.check.outputs.version }} > repo/contain_version.txt
       - name: Deploy the repo
         id: deployment
         uses: actions/upload-artifact@v7
