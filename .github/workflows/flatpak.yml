@@ -38,11 +38,6 @@ jobs:
           echo "version=$LATEST_VERSION" >> $GITHUB_OUTPUT
           echo "date=$VERSION_DATE" >> $GITHUB_OUTPUT
           echo "skip=false" >> $GITHUB_OUTPUT
-      - uses: actions/cache/save@v5
-        id: cache
-        with:
-          path: cache/current_version.txt
-          key: hmcl-version-cache
   flatpak:
     name: Flatpak (${{ matrix.variant.arch }})
     runs-on: ${{ matrix.variant.runner }}
