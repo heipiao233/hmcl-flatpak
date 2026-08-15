@@ -9,12 +9,13 @@ This repo is also not supported by HMCL developers. If you encountered any probl
 
 ## How to install
 
-If your desktop environment has a application store, you can try to import https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
-Some app stores, such as GNOME Software and Plasma's Discover, support opening this file directly, while others may support importing flatpakrepo files within their windows.
+[Click here to install](flatpak+https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref).
+
+If nothing happens, maybe your system does not support `flatpak+https` urls. Please download the [.flatpakref file](https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref) file, then run it from your file manager.
 
 ### In command line
 ```bash
-flatpak remote-add --if-not-exists hmcl https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
+flatpak install https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref
 ```
 
 ## Older JDKs

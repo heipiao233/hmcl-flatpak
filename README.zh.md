@@ -9,12 +9,13 @@
 
 ## 如何安装
 
-如果你的桌面有应用商店，尝试导入 https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
-一些应用商店（包括 GNOME Software 和 Plasma 的 Discover）支持直接打开。如果不行，可能可以在其窗口内导入。
+[点击此处安装](flatpak+https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref)。
+
+如果没有任何反应，有可能您的系统不支持 `flatpak+https` 链接。请下载 [.flatpakref](https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref) 文件，然后在您的文件管理器中运行该文件。
 
 ### 使用命令行
 ````bash
-flatpak remote-add --if-not-exists hmcl https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/hmcl-flatpak.flatpakrepo
+flatpak install https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref
 ````
 
 ## 旧版本 JDK
