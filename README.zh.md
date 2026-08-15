@@ -9,7 +9,7 @@
 
 ## 如何安装
 
-[点击此处安装](flatpak+https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref)。
+[点击此处安装](https://heipiao233.github.io/hmcl-flatpak/install_zh_CN.html)。
 
 如果没有任何反应，有可能您的系统不支持 `flatpak+https` 链接。请下载 [.flatpakref](https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref) 文件，然后在您的文件管理器中运行该文件。
 
