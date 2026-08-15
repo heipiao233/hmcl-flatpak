@@ -87,7 +87,7 @@ jobs:
           echo ${{ needs.check.outputs.version }} > repo/contain_version.txt
       - name: Add install.html
         run: |
-          cp install.html repo/install.html
+          cp install_{zh_CN,en_US}.html repo
       - name: Deploy the repo
         id: deployment
         uses: actions/upload-artifact@v7
