@@ -9,7 +9,7 @@ This repo is also not supported by HMCL developers. If you encountered any probl
 
 ## How to install
 
-[Click here to install](https://heipiao233.github.io/hmcl-flatpak/install_zh_CN.html).
+[Click here to install](https://heipiao233.github.io/hmcl-flatpak/install_en_US.html).
 
 If nothing happens, maybe your system does not support `flatpak+https` urls. Please download the [.flatpakref file](https://github.com/heipiao233/hmcl-flatpak/raw/refs/heads/main/net.huangyuhui.hmcl.flatpakref) file, then run it from your file manager.
 
