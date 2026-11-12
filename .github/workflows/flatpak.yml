@@ -119,6 +119,7 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Merge repos
         run: |
+          sudo apt update
           sudo apt install flatpak
           mv repos/repo-x86_64 repo
           flatpak build-commit-from --gpg-sign=${{ steps.gpg.outputs.fingerprint }} --src-repo=repos/repo-aarch64 --src-ref=app/net.huangyuhui.hmcl/aarch64/master --update-appstream repo app/net.huangyuhui.hmcl/aarch64/master
