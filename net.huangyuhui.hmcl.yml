@@ -1,6 +1,6 @@
 app-id: net.huangyuhui.hmcl
 runtime: org.freedesktop.Platform
-runtime-version: "25.08"
+runtime-version: "26.08"
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk25
@@ -8,15 +8,15 @@ command: hmcl
 
 add-extensions:
   org.freedesktop.Sdk.Extension.openjdk8:
-    version: '25.08'
+    version: '26.08'
     directory: jdk8
     no-autodownload: true
   org.freedesktop.Sdk.Extension.openjdk17:
-    version: '25.08'
+    version: '26.08'
     directory: jdk17
     no-autodownload: true
   org.freedesktop.Sdk.Extension.openjdk21:
-    version: '25.08'
+    version: '26.08'
     directory: jdk21
     no-autodownload: true
 
